@@ -119,7 +119,7 @@ int s_connection_main(int argc, char **argv)
     int ret = 1, i, st_bugs = 0;
     long bytes_read = 0;
     OPTION_CHOICE o;
-    int min_version = 0, max_version = 0, buf_len,fd;
+    int min_version = 0, max_version = 0, buf_len, fd;
     size_t buf_size;
     struct timeval starttime, endtime;
 
