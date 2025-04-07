@@ -263,8 +263,24 @@ int s_connection_main(int argc, char **argv)
             bytes_read += i;
     }
     SSL_set_shutdown(scon, SSL_SENT_SHUTDOWN | SSL_RECEIVED_SHUTDOWN);
-    if ((fd = SSL_get_fd(scon)) >= 0)
-        BIO_closesocket(fd);
+    BIO_closesocket(SSL_get_fd(scon));
+
+    if (SSL_session_reused(scon)) {
+            ver = 'r';
+    } else {
+            ver = SSL_version(scon);
+            if (ver == TLS1_VERSION)
+                ver = 't';
+            else if (ver == SSL3_VERSION)
+                ver = '3';
+            else
+                ver = '*';
+        }
+    fputc(ver, stdout);
+    fflush(stdout);
+
+    SSL_free(scon);
+    scon = NULL;
     
     printf("Handshake duration: %.2f ms\n", (endtime.tv_usec - starttime.tv_usec) / 1000.0);
     ret = 0;
