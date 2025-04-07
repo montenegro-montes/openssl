@@ -265,12 +265,13 @@ int s_connection_main(int argc, char **argv)
     SSL_set_shutdown(scon, SSL_SENT_SHUTDOWN | SSL_RECEIVED_SHUTDOWN);
     BIO_closesocket(SSL_get_fd(scon));
 
-    fflush(stdout);
-
     SSL_free(scon);
     scon = NULL;
+
+    double elapsed_ms = (endtime.tv_sec - starttime.tv_sec) * 1000.0 +
+                        (endtime.tv_usec - starttime.tv_usec) / 1000.0;
     
-    printf("Handshake duration: %.2f ms\n", (endtime.tv_usec - starttime.tv_usec) / 1000.0);
+    printf("Handshake duration: %.2f ms\n", elapsed_ms);
     ret = 0;
     
  end:
