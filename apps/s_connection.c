@@ -265,17 +265,6 @@ int s_connection_main(int argc, char **argv)
     SSL_set_shutdown(scon, SSL_SENT_SHUTDOWN | SSL_RECEIVED_SHUTDOWN);
     BIO_closesocket(SSL_get_fd(scon));
 
-    if (SSL_session_reused(scon)) {
-            ver = 'r';
-    } else {
-            ver = SSL_version(scon);
-            if (ver == TLS1_VERSION)
-                ver = 't';
-            else if (ver == SSL3_VERSION)
-                ver = '3';
-            else
-                ver = '*';
-        }
     fputc(ver, stdout);
     fflush(stdout);
 
